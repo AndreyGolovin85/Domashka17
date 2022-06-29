@@ -45,10 +45,10 @@ class MoviesView(Resource):
         movies_all = movies_genre_and_director.all()
         return jsonify(movies_schema.dump(movies_all))
 
-    def post(self) -> str:
+    def post(self) -> tuple:
         """
         Функция для добавления фильма в базу.
-        :return: str
+        :return: tuple
         """
         request_json = request.json
         movie_new = Movie(**request_json)
@@ -75,12 +75,12 @@ class MovieView(Resource):
             return jsonify(movie_schema.dump(movie))
         return "Нет фильма с таким id", 404
 
-    def put(self, movie_id) -> str:
+    def put(self, movie_id) -> tuple:
         """
         Функция принимает значение movie_id, целое число и обновляет фильм с указанным id.
         Если такого фильма нет сообщает об этом.
         :param movie_id: int
-        :return: str
+        :return: tuple
         """
         movie = db.session.query(Movie).get(movie_id)
         if not movie:
@@ -98,12 +98,12 @@ class MovieView(Resource):
         db.session.commit()
         return f"Фильм с id {movie_id} обновлен в базе!", 204
 
-    def delete(self, movie_id) -> str:
+    def delete(self, movie_id) -> tuple:
         """
         Функция принимает значение movie_id, целое число и удаляет фильм с указанным id.
         Если такого фильма нет сообщает об этом.
         :param movie_id: int
-        :return: str
+        :return: tuple
         """
         movie = db.session.query(Movie).get(movie_id)
         if not movie:
